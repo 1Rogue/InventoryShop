@@ -17,6 +17,10 @@
 package com.rogue.inventoryshop.config;
 
 import com.rogue.inventoryshop.InventoryShop;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * Loads and manages the main configuration file for {@link InventoryShop}
@@ -28,9 +32,108 @@ import com.rogue.inventoryshop.InventoryShop;
 public class ConfigurationLoader {
     
     private final InventoryShop plugin;
+    private final File file;
+    private YamlConfiguration yaml = null;
     
+    
+    /**
+     * Constructor for {@link ConfigurationLoader}
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param plugin The {@link InventoryShop} instance
+     */
     public ConfigurationLoader(InventoryShop plugin) {
         this.plugin = plugin;
+        this.file = new File(this.plugin.getDataFolder(), "config.yml");
+        this.verifyConfig();
+    }
+    
+    /**
+     * Verifies the current configuration, or loads the default configuration
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     */
+    private void verifyConfig() {
+        if (!this.file.exists()) {
+            this.plugin.saveDefaultConfig();
+            this.yaml = YamlConfiguration.loadConfiguration(this.file);
+        } else {
+            this.yaml = YamlConfiguration.loadConfiguration(this.file);
+            for (ConfigValues conf : ConfigValues.values()) {
+                if (!this.yaml.isSet(conf.toString())) {
+                    this.yaml.set(conf.toString(), conf.getDefault());
+                }
+            }
+            this.saveConfig();
+        }
+    }
+    
+    /**
+     * Saves the current configuration from memory
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     */
+    public void saveConfig() {
+        try {
+            this.yaml.save(this.file);
+        } catch (IOException ex) {
+            this.plugin.getLogger().log(Level.SEVERE, "Error saving configuration file!", ex);
+        }
+    }
+    
+    /**
+     * Gets the configuration file for {@link InventoryShops}
+     *
+     * @since 1.3.0
+     * @version 1.3.0
+     *
+     * @return YamlConfiguration file, null if verifyConfig() has not been run
+     */
+    public YamlConfiguration getConfig() {
+        return this.yaml;
+    }
+    
+    /**
+     * Gets a string value from the config
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param path Path to string value
+     * @return String value
+     */
+    public synchronized String getString(ConfigValues path) {
+        return this.yaml.getString(path.toString());
+    }
+    
+    /**
+     * Gets an int value from the config
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param path Path to int value
+     * @return int value
+     */
+    public synchronized int getInt(ConfigValues path) {
+        return this.yaml.getInt(path.toString());
+    }
+    
+    /**
+     * Gets a boolean value from the config
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param path Path to boolean value
+     * @return boolean value
+     */
+    public synchronized boolean getBoolean(ConfigValues path) {
+        return this.yaml.getBoolean(path.toString());
     }
 
 }

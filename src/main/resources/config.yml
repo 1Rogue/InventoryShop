@@ -1,0 +1,12 @@
+general:
+  debug-level: 0
+  update-check: true
+data:
+  manager: yaml
+managers:
+  mysql:
+    host: localhost
+    port: 3306
+    database: minecraft
+    username: root
+    password: password
