@@ -25,41 +25,17 @@ package com.rogue.inventoryshop.config;
  */
 public enum ConfigValues {
 
-    DEBUG_LEVEL("general.debug-level") {
-        @Override public Object getDefault() { return 0; }
-    },
-    UPDATE_CHECK("general.update-check") {
-        @Override public Object getDefault() { return true; }
-    },
-    CURRENT_MANAGER("data.manager") {
-        @Override public Object getDefault() { return "yaml"; }
-    },
-    MYSQL_HOST("managers.mysql.host") {
-        @Override public Object getDefault() { return "localhost"; }
-    },
-    MYSQL_PORT("managers.mysql.port") {
-        @Override public Object getDefault() { return "3306"; }
-    },
-    MYSQL_DATABASE("managers.mysql.database") {
-        @Override public Object getDefault() { return "minecraft"; }
-    },
-    MYSQL_USERNAME("managers.mysql.username") {
-        @Override public Object getDefault() { return "root"; }
-    },
-    MYSQL_PASSWORD("managers.mysql.password") {
-        @Override public Object getDefault() { return "password"; }
-    };
+    DEBUG_LEVEL("general.debug-level", 0),
+    UPDATE_CHECK("general.update-check", true),
+    CURRENT_MANAGER("data.manager", "yaml"),
+    MYSQL_HOST("managers.mysql.host", "localhost"),
+    MYSQL_PORT("managers.mysql.port", "3306"),
+    MYSQL_DATABASE("managers.mysql.database", "minecraft"),
+    MYSQL_USERNAME("managers.mysql.username", "root"),
+    MYSQL_PASSWORD("managers.mysql.password", "password");
+    
     private final String key;
-
-    /**
-     * Returns the default value of the key
-     *
-     * @since 1.0.0
-     * @version 1.0.0
-     *
-     * @return The key's default value
-     */
-    public abstract Object getDefault();
+    private final Object def;
 
     /**
      * private constructor for {@link ConfigValues}
@@ -69,10 +45,25 @@ public enum ConfigValues {
      *
      * @param key The string path to the value
      */
-    private ConfigValues(String key) {
+    private ConfigValues(String key, Object def) {
         this.key = key;
+        this.def = def;
     }
 
+    /**
+     * Returns the default value and key path in the format:
+     * <br>    default-value@key-path-value
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @return The default and key-path value of the {@link ConfigValues} variable
+     */
+    @Override
+    public String toString() {
+        return this.def + "@" + this.key;
+    }
+    
     /**
      * Returns the string path to the value
      *
@@ -81,8 +72,19 @@ public enum ConfigValues {
      *
      * @return The string path to the value
      */
-    @Override
-    public String toString() {
+    public String getPath() {
         return this.key;
+    }
+    
+    /**
+     * Returns the default value of the key
+     *
+     * @since 1.0.0
+     * @version 1.0.0
+     *
+     * @return The key's default value
+     */
+    public Object getDefault() {
+        return this.def;
     }
 }

@@ -63,8 +63,8 @@ public class ConfigurationLoader {
         } else {
             this.yaml = YamlConfiguration.loadConfiguration(this.file);
             for (ConfigValues conf : ConfigValues.values()) {
-                if (!this.yaml.isSet(conf.toString())) {
-                    this.yaml.set(conf.toString(), conf.getDefault());
+                if (!this.yaml.isSet(conf.getPath())) {
+                    this.yaml.set(conf.getPath(), conf.getDefault());
                 }
             }
             this.saveConfig();
