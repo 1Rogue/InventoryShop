@@ -9,8 +9,8 @@ commands:
   inventoryshop:
     description: Does nothing, simply here as a placeholder
 permissions:
-  inventoryshop.*:
+  ishop.*:
     default: op
     description: Gives access to all commands, placeholder
     children:
-      inventoryshop.use: true
+      inventoryshop.updatenotice: true

@@ -18,6 +18,9 @@ package com.rogue.inventoryshop;
 
 import com.rogue.inventoryshop.config.ConfigurationLoader;
 import com.rogue.inventoryshop.data.DataManager;
+import com.rogue.inventoryshop.listener.ListenerManager;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -32,6 +35,7 @@ public class InventoryShop extends JavaPlugin {
     
     private ConfigurationLoader config;
     private DataManager data;
+    private ListenerManager listener;
 
     /**
      * Loads configuration and other data. Unused
@@ -53,6 +57,7 @@ public class InventoryShop extends JavaPlugin {
     @Override
     public void onEnable() {
         this.data = new DataManager(this, true);
+        this.listener = new ListenerManager(this);
     }
 
     /**
@@ -64,4 +69,32 @@ public class InventoryShop extends JavaPlugin {
     public void onDisable() {
     }
     
+    /**
+     * Sends a formatted message to a provided player
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param player The player's name in string form
+     * @param message The message to send
+     */
+    public void communicate(String player, String message) {
+        Player p = this.getServer().getPlayer(player);
+        if (p != null && p.isOnline()) {
+            this.communicate(p, message);
+        }
+    }
+    
+    /**
+     * Sends a formatted message to a provided player
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @param player The player to send to
+     * @param message The message to send
+     */
+    public void communicate(Player player, String message) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[&biShop&e] " + message));
+    }
 }
