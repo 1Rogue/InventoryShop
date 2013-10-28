@@ -16,6 +16,8 @@
  */
 package com.rogue.inventoryshop;
 
+import com.rogue.inventoryshop.config.ConfigurationLoader;
+import com.rogue.inventoryshop.data.DataManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -27,6 +29,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @version 1.0.0
  */
 public class InventoryShop extends JavaPlugin {
+    
+    private ConfigurationLoader config;
+    private DataManager data;
 
     /**
      * Loads configuration and other data. Unused
@@ -36,6 +41,7 @@ public class InventoryShop extends JavaPlugin {
      */
     @Override
     public void onLoad() {
+        this.config = new ConfigurationLoader(this);
     }
 
     /**
@@ -46,6 +52,7 @@ public class InventoryShop extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        this.data = new DataManager(this, true);
     }
 
     /**
