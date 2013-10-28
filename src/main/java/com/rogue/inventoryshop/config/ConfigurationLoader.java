@@ -107,7 +107,7 @@ public class ConfigurationLoader {
      * @return String value
      */
     public synchronized String getString(ConfigValues path) {
-        return this.yaml.getString(path.toString());
+        return this.yaml.getString(path.getPath());
     }
     
     /**
@@ -120,7 +120,7 @@ public class ConfigurationLoader {
      * @return int value
      */
     public synchronized int getInt(ConfigValues path) {
-        return this.yaml.getInt(path.toString());
+        return this.yaml.getInt(path.getPath());
     }
     
     /**
@@ -133,7 +133,7 @@ public class ConfigurationLoader {
      * @return boolean value
      */
     public synchronized boolean getBoolean(ConfigValues path) {
-        return this.yaml.getBoolean(path.toString());
+        return this.yaml.getBoolean(path.getPath());
     }
 
 }
