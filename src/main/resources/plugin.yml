@@ -1,0 +1,16 @@
+main: com.rogue.inventoryshop.InventoryShop
+name: ${project.name}
+prefix: iShop
+description: Allows for managing inventory-based shops in Minecraft
+version: ${project.version}
+authors: [1Rogue, drtshock]
+website: http://dev.bukkit.org/bukkit-plugins/inventoryshop
+commands:
+  inventoryshop:
+    description: Does nothing, simply here as a placeholder
+permissions:
+  inventoryshop.*:
+    default: op
+    description: Gives access to all commands, placeholder
+    children:
+      inventoryshop.use: true
