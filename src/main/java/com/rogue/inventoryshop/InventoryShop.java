@@ -16,9 +16,11 @@
  */
 package com.rogue.inventoryshop;
 
+import com.rogue.inventoryshop.config.ConfigValues;
 import com.rogue.inventoryshop.config.ConfigurationLoader;
 import com.rogue.inventoryshop.data.DataManager;
 import com.rogue.inventoryshop.listener.ListenerManager;
+import com.rogue.inventoryshop.update.UpdateHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,11 +33,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author drtshock
  * @version 1.0.0
  */
-public class InventoryShop extends JavaPlugin {
+public final class InventoryShop extends JavaPlugin {
     
     private ConfigurationLoader config;
     private DataManager data;
     private ListenerManager listener;
+    private UpdateHandler update;
+    private int debug = 0;
 
     /**
      * Loads configuration and other data. Unused
@@ -46,6 +50,15 @@ public class InventoryShop extends JavaPlugin {
     @Override
     public void onLoad() {
         this.config = new ConfigurationLoader(this);
+        
+        //Sets the debug value for caching simplicity
+        this.debug = this.config.getInt(ConfigValues.DEBUG_LEVEL);
+        if (this.debug > 3) {
+            this.debug = 3;
+        }
+        if (this.debug < 0) {
+            this.debug = 0;
+        }
     }
 
     /**
@@ -96,5 +109,41 @@ public class InventoryShop extends JavaPlugin {
      */
     public void communicate(Player player, String message) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e[&biShop&e] " + message));
+    }
+    
+    /**
+     * Returns the current debug level for {@link InventoryShop}
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @return The debug level
+     */
+    public int getDebug() {
+        return this.debug;
+    }
+    
+    /**
+     * Gets the configuration loader for {@link InventoryShop}
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @return The {@link ConfigurationLoader} for {@link InventoryShop}
+     */
+    public ConfigurationLoader getConfigurationLoader() {
+        return this.config;
+    }
+    
+    /**
+     * Gets the update handler for {@link InventoryShop}
+     * 
+     * @since 1.0.0
+     * @version 1.0.0
+     * 
+     * @return The {@link UpdateHandler} for {@link InventoryShop}
+     */
+    public UpdateHandler getUpdateHandler() {
+        return this.update;
     }
 }

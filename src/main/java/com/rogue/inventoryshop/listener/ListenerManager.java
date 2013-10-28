@@ -17,7 +17,9 @@
 package com.rogue.inventoryshop.listener;
 
 import com.rogue.inventoryshop.InventoryShop;
+import com.rogue.inventoryshop.config.ConfigValues;
 import com.rogue.inventoryshop.listener.listeners.InventoryListener;
+import com.rogue.inventoryshop.listener.listeners.UpdateListener;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.event.Listener;
@@ -35,6 +37,10 @@ public class ListenerManager {
     public ListenerManager(InventoryShop plugin) {
         
         this.listeners.put("inventory", new InventoryListener(plugin));
+        
+        if (plugin.getConfigurationLoader().getBoolean(ConfigValues.UPDATE_CHECK)) {
+            this.listeners.put("update", new UpdateListener(plugin));
+        }
         
         for (Listener l : this.listeners.values()) {
             plugin.getServer().getPluginManager().registerEvents(l, plugin);

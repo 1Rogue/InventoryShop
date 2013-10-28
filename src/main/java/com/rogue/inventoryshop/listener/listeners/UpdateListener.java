@@ -40,18 +40,18 @@ public class UpdateListener implements Listener {
     /**
      * Sends a notification to ops/players with all of the plugin's permissions
      *
-     * @since 1.2.0
-     * @version 1.4.1
+     * @since 1.0.0
+     * @version 1.0.0
      *
      * @param e The join event
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().hasPermission("ishop.updatenotice")) {
-            //TODO: Make this configurable around updates
-            //if (this.plugin.isUpdateAvailable()) {
-                this.plugin.communicate(e.getPlayer(), "An update is available!");
-            //}
+            if (this.plugin.getUpdateHandler().isUpdateAvailable()) {
+                this.plugin.communicate(e.getPlayer(), "An update is available!\n"
+                        + "&6http://dev.bukkit.org/bukkit-plugins/InventoryShop");
+            }
         }
     }
     
