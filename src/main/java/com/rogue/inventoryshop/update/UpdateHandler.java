@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Handles the update process for {@link InventoryShop}
@@ -106,32 +105,20 @@ class UpdateRunnable extends UpdateHandler implements Runnable {
                     "Error checking for an update",
                     this.plugin.getDebug() >= 3 ? ex : "");
         } finally {
-            if (stream != null) {
-                try {
+            try {
+                if (stream != null) {
                     stream.close();
-                } catch (IOException ex) {
-                    this.plugin.getLogger().log(Level.SEVERE,
-                            "Error closing updater streams!",
-                            this.plugin.getDebug() >= 3 ? ex : "");
                 }
-            }
-            if (isr != null) {
-                try {
+                if (isr != null) {
                     isr.close();
-                } catch (IOException ex) {
-                    this.plugin.getLogger().log(Level.SEVERE,
-                            "Error closing updater streams!",
-                            this.plugin.getDebug() >= 3 ? ex : "");
                 }
-            }
-            if (reader != null) {
-                try {
+                if (reader != null) {
                     reader.close();
-                } catch (IOException ex) {
-                    this.plugin.getLogger().log(Level.SEVERE,
-                            "Error closing updater streams!",
-                            this.plugin.getDebug() >= 3 ? ex : "");
                 }
+            } catch (IOException ex) {
+                this.plugin.getLogger().log(Level.SEVERE,
+                        "Error closing updater streams!",
+                        this.plugin.getDebug() >= 3 ? ex : "");
             }
         }
     }
